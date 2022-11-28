@@ -1,0 +1,26 @@
+"Description" : "Running the NGINX image as a Lambda function"
+
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  ImageUri:
+    Type: String
+    Description: "ECR image uri"
+
+Resources:
+  Function:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageUri: !Ref ImageUri
+      Timeout: 10
+      AutoPublishAlias: live
+      Events:
+        Http:
+          Type: HttpApi
+
+Outputs:
+  Function:
+    Value: !Ref Function.Version
+  Url:
+    Value: !GetAtt ServerlessHttpApi.ApiEndpoint
