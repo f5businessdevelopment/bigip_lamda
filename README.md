@@ -8,9 +8,10 @@ One Click Deploy bigip with lamda function providing nginx container backend
 - main.tf also uses DO to install AS3, FAST, Service Discovery RPM
 - main.tf uses terraform null resource to deploy AS3 with FQDN Service Discovery
 
-**Note**: Sometimes the API gateway in AWS provides non alphanumeric ID which results
-          into failure of deploying AS3, then you have to do it manually, as BIG-IP
-          does not take non-alphanumeric FQDN 
+**Note**: Sometimes the API gateway invoke URL provides ID starting with numeric
+          number  which results into failure of deploying AS3, make  sure your
+          API gateway URL always start with alphanumeric for example
+          https://uzay4ib14.execute-api.us-east-1.amazonaws.com 
 
 ## How to use this repo
 ```
