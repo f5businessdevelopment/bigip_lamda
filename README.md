@@ -14,12 +14,10 @@ One Click Deploy bigip with lamda function providing nginx container backend
 
 ## How to use this repo
 
-```
 git clone https://github.com/f5businessdevelopment/bigip_lamda.git
-
 ```
 ```   
-cd bgip_lamda
+cd bigip_lamda
 
 ```
 ```
