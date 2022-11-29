@@ -1,5 +1,0 @@
-address  = "${addr}"
-username = "${username}"
-password = "${pwd}"
-port = "${port}"
-pool_member = "${pool_member}"

@@ -221,7 +221,7 @@ resource "null_resource" "clusterDO" {
   depends_on = [module.bigip]
 }
 
-data "template_file" "tfvars" {
+/*data "template_file" "tfvars" {
   template = file("as3/terraform.tfvars.example")
   vars = {
     addr        = module.bigip.0.mgmtPublicIP
@@ -235,7 +235,7 @@ data "template_file" "tfvars" {
 resource "local_file" "tfvars-as3" {
   content  = data.template_file.tfvars.rendered
   filename = "as3/terraform.tfvars"
-}
+} */
 #
 # Variables used by this example
 #
@@ -248,7 +248,7 @@ locals {
 data "template_file" "as3_json" {
   template = file("as3/fqdn.json")
   vars = {
-    virtual_IP = "module.bigip.0.private_addresses"
+    virtual_IP = module.bigip.0.private_addresses.mgmt_private.private_ip[0]
     pool_member = substr(aws_cloudformation_stack.scslamda.outputs.Url, 8, -1)
   }
 }
@@ -261,6 +261,7 @@ resource "null_resource" "as3_deploy" {
 
   provisioner "local-exec" {
     command = <<EOT
+    sleep 200
 CREDS="bigipuser:"${random_string.password.result}
 curl -u $CREDS -H "Content-Type: Application/json" -X POST -k https://${module.bigip.0.mgmtPublicIP}:8443/mgmt/shared/appsvcs/declare -d @fqdn.json
 EOT

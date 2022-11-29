@@ -29,7 +29,7 @@ output "mgmtPublicURL" {
 }
 
 # VPC ID used for BIG-IP Deploy
-output "vpc_id" {
+/*output "vpc_id" {
   value = module.vpc.vpc_id
 }
 
@@ -51,6 +51,12 @@ output "bigip_nic_ids" {
 output "display_as3" {
   description = "display s3"
   value       = data.template_file.as3_json.rendered
+}
+*/
+
+output "To_Access_Nginx_Container_App_use" {
+  description = "To access the backen container NGINX app use below URL"
+  value = "https://${module.bigip.0.mgmtPublicIP}:8080"
 }
 // output tls_privatekey {
 //   value = tls_private_key.example.private_key_pem
