@@ -13,15 +13,13 @@ One Click Deploy bigip with lamda function providing nginx container backend
           does not take non-alphanumeric FQDN 
 
 ## How to use this repo
-
-git clone https://github.com/f5businessdevelopment/bigip_lamda.git
 ```
+git clone https://github.com/f5businessdevelopment/bigip_lamda.git
+````
+
 ```   
 cd bigip_lamda
-
 ```
 ```
-
 terraform init & terraform plan & terraform apply -auto-approve
-
 ```    
