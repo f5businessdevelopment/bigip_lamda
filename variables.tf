@@ -8,7 +8,11 @@ variable "prefix" {
   description = "Prefix for resources created by this module"
   type        = string
 }
-variable "region" {}
+variable "region" {
+  description = " which region you want to deploy provide us-east-1"
+  type = string
+  default = "us-east-1"
+}
 
 variable "cidr" {
   description = "aws VPC CIDR"
@@ -22,7 +26,12 @@ variable "availabilityZones" {
   type        = list(any)
   default     = ["us-east-1a", "us-east-1b"]
 }
-variable "AllowedIPs" {}
+variable "AllowedIPs" {
+ description = " from where you want access resource"
+ type = list(any)
+ default = ["0.0.0.0/0"]
+
+}
 
 variable "instance_count" {
   description = "Number of Bigip instances to create( From terraform 0.13, module supports count feature to spin mutliple instances )"
