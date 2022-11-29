@@ -49,8 +49,8 @@ output "bigip_nic_ids" {
 }
 
 output "display_as3" {
-description = "display s3"
-value = data.template_file.as3_json.rendered
+  description = "display s3"
+  value       = data.template_file.as3_json.rendered
 }
 // output tls_privatekey {
 //   value = tls_private_key.example.private_key_pem

@@ -1,3 +1,16 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.0"
+    }
+  }
+}
+
+
+
+
+
 provider "aws" {
   region = var.region
 }
@@ -211,10 +224,10 @@ resource "null_resource" "clusterDO" {
 data "template_file" "tfvars" {
   template = file("as3/terraform.tfvars.example")
   vars = {
-    addr     = module.bigip.0.mgmtPublicIP
-    port     = "8443"
-    username = "bigipuser"
-    pwd      = random_string.password.result
+    addr        = module.bigip.0.mgmtPublicIP
+    port        = "8443"
+    username    = "bigipuser"
+    pwd         = random_string.password.result
     pool_member = aws_cloudformation_stack.scslamda.outputs.Url
   }
 }
@@ -235,17 +248,26 @@ locals {
 data "template_file" "as3_json" {
   template = file("as3/fqdn.json")
   vars = {
-    pool_member        =  substr(aws_cloudformation_stack.scslamda.outputs.Url, 8, -1)
+    virtual_IP = "module.bigip.0.private_addresses"
+    pool_member = substr(aws_cloudformation_stack.scslamda.outputs.Url, 8, -1)
   }
 }
 
-resource "nul_resource" "as3_deploy" {
-  
-  provisioner "local-exec" {
-command = <<EOT
-CREDS="bigipuser:"${module.bigip.*.bigip_password}
-curl -u $CREDS -H "Content-Type: Application/json" -X POST -k https://${module.bigip.*.public_addresses}:8443/mgmt/shared/appsvcs/declare -d @${data.template_file.as3_json.rendered}
-EOT
+resource "local_file" "create-as3" {
+  content  = data.template_file.as3_json.rendered
+  filename = "fqdn.json"
 }
+resource "null_resource" "as3_deploy" {
+
+  provisioner "local-exec" {
+    command = <<EOT
+CREDS="bigipuser:"${random_string.password.result}
+curl -u $CREDS -H "Content-Type: Application/json" -X POST -k https://${module.bigip.0.mgmtPublicIP}:8443/mgmt/shared/appsvcs/declare -d @fqdn.json
+EOT
+  }
+  provisioner "local-exec" {
+    when    = destroy
+    command = "rm -rf fqdn.json"
+  }
   depends_on = [module.bigip]
 }
