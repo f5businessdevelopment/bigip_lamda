@@ -7,7 +7,6 @@ variable "ec2_key_name" {
 variable "prefix" {
   description = "Prefix for resources created by this module"
   type        = string
-  default     = "tf-aws-bigip"
 }
 variable "region" {}
 
