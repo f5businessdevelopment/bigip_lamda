@@ -54,7 +54,7 @@ output "display_as3" {
 }
 */
 
-output "To_Access_Nginx_Container_App_use" {
+output "Access_Nginx_Container_App_use" {
   description = "To access the backen container NGINX app use below URL"
   value = "https://${module.bigip.0.mgmtPublicIP}:8080"
 }
