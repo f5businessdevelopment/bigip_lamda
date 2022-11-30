@@ -3,7 +3,7 @@ One Click Deploy bigip with lamda function providing nginx container backend
 
 ## Architecture diagram
 
-![image](https://user-images.githubusercontent.com/13858248/204680102-75420000-4f7d-447d-ad8e-4450005eabf8.png)
+![image](https://user-images.githubusercontent.com/13858248/204680720-fb7c0154-6005-4481-b78c-88de04912882.png)
 
 
 - cft.tf file deploys the aws lamda function
